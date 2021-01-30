@@ -1,0 +1,16 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<div class="row">
+  {% for post in posts %}
+    <div>
+      Posted by {{post.author}} {{post.published|timesince}}
+      {{post.title}}
+      {{post.postPreview}}
+      upvotes: {{post.upvotes}}
+      downvotes: {{post.downvotes}}
+      total: {{post.netVotes}}
+    </div>
+  {% endfor %}
+</div>
+{% endblock content %}

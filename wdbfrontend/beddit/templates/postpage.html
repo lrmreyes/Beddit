@@ -1,0 +1,21 @@
+{% extends 'template.html' %}
+
+{% block content %}
+<div class="row">
+  Posted by {{post.author}} {{post.published|timesince}}
+  {{post.title}}
+  upvotes: {{post.upvotes}}
+  downvotes: {{post.downvotes}}
+  total: {{post.netVotes}}
+  {{post.content}}
+  <hr>
+  
+  {% for comment in post.comments %}
+    {{comment.author}}
+    {{comment.content}}
+    +{{comment.upvotes}}
+    -{{comment.downvotes}}
+  {% endfor %}
+</div>
+{% endblock content %}
+
