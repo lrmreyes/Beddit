@@ -1,21 +1,37 @@
 {% extends 'template.html' %}
 
 {% block content %}
-<div class="row">
-  Posted by {{post.author}} {{post.published|timesince}}
-  {{post.title}}
-  upvotes: {{post.upvotes}}
-  downvotes: {{post.downvotes}}
-  total: {{post.netVotes}}
-  {{post.content}}
-  <hr>
-  
-  {% for comment in post.comments %}
-    {{comment.author}}
-    {{comment.content}}
-    +{{comment.upvotes}}
-    -{{comment.downvotes}}
-  {% endfor %}
+<div class="post mt-3 px-4">
+  <!-- Main post content -->
+  <div class="row py-2">
+    <div class="col">
+      <p class="text-muted">Posted by {{post.author}} {{post.published|timesince}} ago</p>
+      <h3>{{post.title}}</h3>
+      <p class="text-muted">upvotes: {{post.upvotes}}<br>
+      downvotes: {{post.downvotes}}<br>
+      total: {{post.netVotes}}</p>
+      {{post.content}}
+    </div>
+  </div>
+  <hr class="w-100"/>
+  <!-- Comments loop -->
+  {% if post.comments %}
+    {% for comment in post.comments.all %}
+    <div class="row py-2">
+      <div class="col-11">
+        <p>
+          <span class="text-muted">{{comment.author}}</span><br>
+          {{comment.content}}
+        </p>
+      </div>
+      <div class="col center-vertical">
+        <p class="text-muted">
+          +{{comment.upvotes}}<br>
+          -{{comment.downvotes}}
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  {% endif %}
 </div>
 {% endblock content %}
-

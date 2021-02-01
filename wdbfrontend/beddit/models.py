@@ -1,27 +1,18 @@
 from django.db import models
+from django.utils.timezone import localdate
 
 # Create your models here.
 class Post(models.Model):
-    title = description = models.TextField()
-    price = models.DecimalField(max_digits=7,decimal_places=2)
+    title = models.TextField()
     content = models.TextField(blank=True)
     author = models.CharField(max_length=200) # Theoretically this would be a foreign key to a user model
-    published = models.DateField(auto_now_add=True)
+    published = models.DateField(default=localdate)
     upvotes = models.PositiveIntegerField()
     downvotes = models.PositiveIntegerField()
 
     def __str__(self):
         return self.title + " - " + self.author
-        
-    # Returns post's content or its first 200 characters if it has more
-    @property
-    def postPreview(self):
-        try:
-            preview = self.content[0:200] + "..."
-        except:
-            preview = self.content
-        return preview
-    
+            
     @property
     def netVotes(self):
         return self.upvotes - self.downvotes
@@ -32,3 +23,6 @@ class Comment(models.Model):
     upvotes = models.PositiveIntegerField()
     downvotes = models.PositiveIntegerField()
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    
+    def __str__(self):
+        return self.content + " - " + self.author
